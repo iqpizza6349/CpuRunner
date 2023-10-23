@@ -21,6 +21,11 @@ if (CMAKE_VERSION VERSION_LESS "3.7.0")
 endif()
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
+find_package(Boost REQUIRED COMPONENTS system)
+
+if (!Boost_FOUND)
+    message(FATAL_ERROR "Boost libraries not found. Please install them.")
+endif()
 
 add_executable(CpuRunner 
     "src/main.cpp"
@@ -32,8 +37,9 @@ add_library(CpuWidget
     "src/widget/CharacterWidget.cpp"
 )
 
+include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${Qt5Widgets_INCLUDE_DIRS})
 include_directories(${CMAKE_SOURCE_DIR}/thirdparty/CpuUsage)
-target_link_libraries(CpuRunner CpuWidget Qt5::Widgets)
+target_link_libraries(CpuRunner CpuWidget Qt5::Widgets ${Boost_LIBRARIES})
 
 include(CPack)
