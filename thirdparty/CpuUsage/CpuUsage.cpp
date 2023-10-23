@@ -4,29 +4,37 @@ namespace CpuUsage {
     double usage() {
         std::ifstream statFile("/proc/stat");
         std::string line;
+        std::getline(statFile, line);
+        statFile.close();
 
-        if (statFile.is_open()) {
-            std::getline(statFile, line);
-            if (line.substr(0, 3) == "cpu") {
-                std::istringstream iss(line);
-                std::string cpuLabel;
-                unsigned long user, nice, system, idle, iowait, irq, softirq, steal, guest, guest_nice;
-                iss >> cpuLabel >> user >> nice >> system >> idle >> iowait >> irq >> softirq >> steal >> guest >> guest_nice;
+        std::istringstream stream(line);
+        std::string cpuLabel;
+        unsigned long user, nice, system, idle, iowait, irq, softirq, steal, guest, guest_nice;
 
-                // Calculate total CPU usage
-                unsigned long totalCpuTime = user + nice + system + idle + iowait + irq + softirq + steal;
-                unsigned long idleTime = idle + iowait;
-                return 100.0 * (1.0 - (static_cast<double>(idleTime) / totalCpuTime));
-            } else {
-                std::cerr << "Error: Unexpected format in /proc/stat." << std::endl;
-                return DEFAULT_CPU_USAGE;
-            }
+        stream >> cpuLabel >> user >> nice >> system >> idle >> iowait >> irq >> softirq >> steal >> guest >> guest_nice;
 
-            statFile.close();
-        } else {
-            std::cerr << "Error opening /proc/stat file." << std::endl;
-            return DEFAULT_CPU_USAGE;
-        }
-        return DEFAULT_CPU_USAGE;
+        // CPU usage at first point
+        unsigned long startIdle = idle + iowait;
+        unsigned long startNonIdle = user + nice + system + irq + softirq + steal + guest + guest_nice;
+        unsigned long startTime = startIdle + startNonIdle;
+
+        sleep(1); // 1 ms wait .
+
+        statFile.open("/proc/stat");
+        std::getline(statFile, line);
+        statFile.close();
+
+        std::istringstream stream2(line);
+        stream2 >> cpuLabel >> user >> nice >> system >> idle >> iowait >> irq >> softirq >> steal >> guest >> guest_nice;
+
+        // CPU usage at second point
+        unsigned long endIdle = idle + iowait;
+        unsigned long endNonIdle = user + nice + system + irq + softirq + steal + guest + guest_nice;
+        unsigned long endTime = endIdle + endNonIdle;
+
+        unsigned long totalTime = endTime - startTime;
+        unsigned long totalIdle = endIdle - startIdle;
+
+        return ((totalTime - totalIdle) / static_cast<double>(totalTime)) * 100.0;
     }
 }
