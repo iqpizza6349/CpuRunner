@@ -24,16 +24,16 @@ find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 add_executable(CpuRunner 
     "src/main.cpp"
+    "thirdparty/CpuUsage/CpuUsage.cpp"
 )
 
-add_library(CpuLibrary 
-    "src/cpusage.h" 
-    "src/cpusage.cpp"
+add_library(CpuWidget
     "src/widget/CharacterWidget.h"
     "src/widget/CharacterWidget.cpp"
 )
 
 include_directories(${Qt5Widgets_INCLUDE_DIRS})
-target_link_libraries(CpuRunner CpuLibrary Qt5::Widgets)
+include_directories(${CMAKE_SOURCE_DIR}/thirdparty/CpuUsage)
+target_link_libraries(CpuRunner CpuWidget Qt5::Widgets)
 
 include(CPack)
