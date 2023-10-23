@@ -1,5 +1,11 @@
 #include "CpuUsage.h"
 
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <unistd.h>
+
 namespace CpuUsage {
     double usage() {
         std::ifstream statFile("/proc/stat");
