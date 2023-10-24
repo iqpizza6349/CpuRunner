@@ -81,7 +81,8 @@
         "timer": "cpp",
         "*.ipp": "cpp",
         "qbitmap": "cpp",
-        "qtimer": "cpp"
+        "qtimer": "cpp",
+        "qpoint": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
