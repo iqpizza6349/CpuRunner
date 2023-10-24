@@ -34,9 +34,17 @@ protected:
         }
     }
 
+public slots:
+    void updateCpuUsage();
+
 private:
     QLabel *label;
     QPoint offset;
+    QTimer *guiTimer;
+    std::string previous;
+
+    void updateImage(QPixmap pixmap);
+    bool checkIsSameAsPrevious(std::string newString);
 };
 
 #endif
