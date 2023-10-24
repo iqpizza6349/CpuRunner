@@ -22,10 +22,6 @@ CharacterWidget::CharacterWidget(): QWidget() {
 CharacterWidget::~CharacterWidget() {
 }
 
-bool CharacterWidget::checkIsSameAsPrevious(std::string newString) {
-    return (previous == newString);
-}
-
 void CharacterWidget::updateCpuUsage() {
     double usage = CpuUsage::usage();
     std::string filename = (usage > 33.0) ? NORMAL : COOL;

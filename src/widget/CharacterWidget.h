@@ -44,7 +44,9 @@ private:
     std::string previous;
 
     void updateImage(QPixmap pixmap);
-    bool checkIsSameAsPrevious(std::string newString);
+    bool checkIsSameAsPrevious(std::string newString) {
+        return previous == newString;
+    }
 };
 
 #endif
