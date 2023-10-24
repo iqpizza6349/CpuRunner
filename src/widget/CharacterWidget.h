@@ -1,16 +1,16 @@
 #ifndef CHARACTER_WINDOW_H
 #define CHARACTER_WINDOW_H
 
-#include <QApplication>
+#define COOL "../assets/normal.png"
+#define NORMAL "../assets/cool.png"
+
+#include <string>
+
 #include <QWidget>
 #include <QLabel>
-#include <QString>
 #include <QPixmap>
-#include <QBitmap>
 #include <QPoint>
-#include <QImage>
-#include <QPainter>
-
+#include <QTimer>
 #include <QMouseEvent>
 
 #include <QDebug>
