@@ -1,6 +1,11 @@
 #include "CharacterWidget.h"
 #include <iostream>
 
+#include <QApplication>
+#include <QImage>
+#include <QBitmap>
+#include <QString>
+
 #include <CpuUsage.h>
 
 CharacterWidget::CharacterWidget(): QWidget() {
