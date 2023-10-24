@@ -13,8 +13,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTOMCC ON)
-set(CMAKE_AUTOMIC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
 
 if (CMAKE_VERSION VERSION_LESS "3.7.0")
     set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -27,19 +27,24 @@ if (!Boost_FOUND)
     message(FATAL_ERROR "Boost libraries not found. Please install them.")
 endif()
 
-add_executable(CpuRunner 
+set(SOURCES
     "src/main.cpp"
+    "src/widget/RunnerWidget.cpp"
+    "src/widget/UsageLabel.cpp"
     "thirdparty/CpuUsage/CpuUsage.cpp"
 )
 
-add_library(CpuWidget
-    "src/widget/CharacterWidget.h"
-    "src/widget/CharacterWidget.cpp"
-)
-
+include_directories("src/include")
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${Qt5Widgets_INCLUDE_DIRS})
 include_directories(${CMAKE_SOURCE_DIR}/thirdparty/CpuUsage)
-target_link_libraries(CpuRunner CpuWidget Qt5::Widgets ${Boost_LIBRARIES})
+
+add_library(CpuRunnerLibrary STATIC ${SOURCES})
+
+add_executable(CpuRunner 
+    "src/main.cpp"
+)
+
+target_link_libraries(CpuRunner CpuRunnerLibrary Qt5::Widgets ${Boost_LIBRARIES})
 
 include(CPack)
