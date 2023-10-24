@@ -1,22 +1,19 @@
+#include <CpuRunner/RunnerWidget.h>
+
 #include <QApplication>
 #include <cstdlib>
 
 #include <iostream>
 
-#include "widget/CharacterWidget.h"
 #include "CpuUsage.h"
-
-using CpuUsage::usage;
 
 bool isXServerEnvironment();
 
 int main(int argc, char** argv) {
     std::cout << "Hello, I'm CpuRunner!\n" << std::endl;
-    std::cout << "CPU Usage: " << usage() << "%" << std::endl;
-
     QApplication app(argc, argv);
     
-    CharacterWidget window;
+    CpuRunner::RunnerWidget window;
     window.resize(400, 300);
 
     Qt::WindowType type = Qt::FramelessWindowHint;

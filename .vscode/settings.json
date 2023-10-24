@@ -82,7 +82,13 @@
         "*.ipp": "cpp",
         "qbitmap": "cpp",
         "qtimer": "cpp",
-        "qpoint": "cpp"
+        "qpoint": "cpp",
+        "qlabel": "cpp",
+        "qstring": "cpp",
+        "qwidget": "cpp",
+        "qvboxlayout": "cpp",
+        "qobject": "cpp",
+        "qpixmap": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
