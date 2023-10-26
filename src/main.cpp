@@ -10,7 +10,7 @@
 bool isXServerEnvironment();
 
 int main(int argc, char** argv) {
-    std::cout << "Hello, I'm CpuRunner!\n" << std::endl;
+    std::cout << "Hello, I'm CpuRunner!" << std::endl;
     QApplication app(argc, argv);
     
     CpuRunner::RunnerWidget window;
