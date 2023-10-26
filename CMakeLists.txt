@@ -32,12 +32,14 @@ set(SOURCES
     "src/widget/RunnerWidget.cpp"
     "src/widget/UsageLabel.cpp"
     "thirdparty/CpuUsage/CpuUsage.cpp"
+    "thirdparty/INI/INI.cpp"
 )
 
 include_directories("src/include")
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${Qt5Widgets_INCLUDE_DIRS})
 include_directories(${CMAKE_SOURCE_DIR}/thirdparty/CpuUsage)
+include_directories(${CMAKE_SOURCE_DIR}/thirdparty/INI)
 
 add_library(CpuRunnerLibrary STATIC ${SOURCES})
 
