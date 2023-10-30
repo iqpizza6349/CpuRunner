@@ -24,7 +24,7 @@ namespace CpuUsage {
         unsigned long startNonIdle = user + nice + system + irq + softirq + steal + guest + guest_nice;
         unsigned long startTime = startIdle + startNonIdle;
 
-        sleep(1); // 1 ms wait .
+        sleep(1); // 1 second wait .
 
         statFile.open("/proc/stat");
         std::getline(statFile, line);
