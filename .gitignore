@@ -60,3 +60,11 @@ build/*
 
 ### assets ###
 assets/*
+
+### third party binary ###
+# Those binary(or stage) is too heavy to manage on git
+thirdparty/boost/unix/**
+thirdparty/boost/windows/**
+thirdparty/qt/linux/**
+thirdparty/qt/windows/**
+thirdparty/qt/macos/**
