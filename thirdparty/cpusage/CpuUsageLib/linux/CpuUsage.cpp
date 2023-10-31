@@ -1,4 +1,4 @@
-#include "CpuUsage.h"
+#include <CpuUsage.h>
 
 #include <iostream>
 #include <fstream>
@@ -6,8 +6,8 @@
 #include <string>
 #include <unistd.h>
 
-namespace CpuUsage {
-    double usage() {
+namespace Cpusage {
+    int usage() {
         std::ifstream statFile("/proc/stat");
         std::string line;
         std::getline(statFile, line);
@@ -24,7 +24,7 @@ namespace CpuUsage {
         unsigned long startNonIdle = user + nice + system + irq + softirq + steal + guest + guest_nice;
         unsigned long startTime = startIdle + startNonIdle;
 
-        sleep(1); // 1 second wait .
+        sleep(1); // 1 ms wait .
 
         statFile.open("/proc/stat");
         std::getline(statFile, line);
@@ -41,6 +41,7 @@ namespace CpuUsage {
         unsigned long totalTime = endTime - startTime;
         unsigned long totalIdle = endIdle - startIdle;
 
-        return ((totalTime - totalIdle) / static_cast<double>(totalTime)) * 100.0;
+        double usages = ((totalTime - totalIdle) / static_cast<double>(totalTime)) * 100.0;
+        return static_cast<int>(usages);
     }
 }
