@@ -5,6 +5,7 @@
 #include <CpuRunner/RunnerWidget.h>
 #include <CpuRunner/UsageLabel.h>
 #include <CpuRunner/Widget.h>
+#include <CpuRunner/OptionsManager.h>
 
 #include <QDebug>
 
