@@ -30,6 +30,10 @@ namespace INI {
                 return values;
             }
 
+            bool isNull() const {
+                return options.empty();
+            }
+
         protected:
             void readINI(std::ifstream &iniFile) {
                 if (iniFile.is_open()) {
