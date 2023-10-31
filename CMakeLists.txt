@@ -24,6 +24,7 @@ set(SOURCES
     "src/main.cpp"
     "src/widget/RunnerWidget.cpp"
     "src/widget/UsageLabel.cpp"
+    "src/options/OptionsManager.cpp"
     "thirdparty/ini/INILib/Loader.cpp"
 )
 
