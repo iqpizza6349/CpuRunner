@@ -23,9 +23,9 @@ namespace CpuRunner {
     }
     
     void RunnerWidget::update() {
-        double usage = CpuUsage::usage();
-        usageLabel->updateUsage(static_cast<int>(usage));
-        std::string filename = (usage > 33.0) ? NORMAL : COOL;
+        int usage = Cpusage::usage();
+        usageLabel->updateUsage(usage);
+        std::string filename = (usage > 33) ? NORMAL : COOL;
         if (!checkIsSameAsPrevious(filename)) {
             previous = filename;
             QString filepath = QString::fromStdString(filename);
