@@ -19,6 +19,7 @@ int initializeApplication(int argc, char** argv);
 int main(int argc, char** argv) {
     std::cout << "Hello, I'm CpuRunner!" << std::endl;
     initializeOptions();
+    initialize();
     return initializeApplication(argc, argv);
 }
 
