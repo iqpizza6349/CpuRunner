@@ -1,5 +1,7 @@
 #include <INI/Loader.h>
 
+#include <CpuRunner/CpuRunnerOption.h>
+
 namespace CpuRunner {
     class OptionsManager {
         public:
@@ -10,6 +12,10 @@ namespace CpuRunner {
             void operator=(const OptionsManager &) = delete;
 
             static OptionsManager *GetInstance(const INI::Loader &loader = nullLoader);
+
+            std::string getOption(CpuRunnerOption::Option option) {
+                return loader_.getValue(CpuRunnerOption::toString(option));
+            }
 
         protected:
             OptionsManager(const INI::Loader loader): loader_(loader) {
