@@ -7,10 +7,11 @@
 
 #include "CpuUsage.h"
 #include "INI.h"
-#include <CpuRunner/OptionsManager.h>
+#include "CpuRunner.h"
 
 using namespace CpuRunner;
 
+OptionsManager *options;
 bool isXServerEnvironment();
 void initializeOptions();
 int initializeApplication(int argc, char** argv);
@@ -27,15 +28,16 @@ bool isXServerEnvironment() {
 
 void initializeOptions() {
     INI::Loader loader("options.ini");
-    OptionsManager *manager = OptionsManager::GetInstance(loader);
-    // TODO: load something..
+    options = OptionsManager::GetInstance(loader);
 }
 
 int initializeApplication(int argc, char** argv) {
     QApplication app(argc, argv);
     
     CpuRunner::RunnerWidget window;
-    window.resize(400, 300);
+    int width = options->convertToInt(options->getOptionValue(CpuRunnerOption::Option::WIDGET_WIDTH, true));
+    int height = options->convertToInt(options->getOptionValue(CpuRunnerOption::Option::WIDGET_HEIGHT, true));
+    window.resize(width, height);
 
     Qt::WindowType type = Qt::FramelessWindowHint;
     if (isXServerEnvironment()) {

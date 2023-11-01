@@ -1,5 +1,7 @@
 #include <CpuRunner/OptionsManager.h>
 
+#include <iostream>
+
 namespace CpuRunner {
 
     const std::unordered_map<CpuRunnerOption::Option, std::string> 
@@ -28,5 +30,22 @@ namespace CpuRunner {
             manager_ = new OptionsManager(loader);
         }
         return manager_;
+    }
+
+    std::variant<std::string, int> OptionsManager::getOptionValue(CpuRunnerOption::Option option, bool isNumber) {
+        std::variant<std::string, int> result;
+        auto value = loader_.getValue(CpuRunnerOption::toString(option));
+        if (isNumber) {
+            try {
+                int numValue = std::stoi(value);
+                result = numValue;
+            } catch (std::invalid_argument&) {
+                std::cerr << "Invalid integer value" << std::endl;
+            }
+        }
+        else {
+            result = value;
+        }
+        return result;
     }
 }
