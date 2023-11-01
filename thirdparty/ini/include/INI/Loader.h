@@ -9,7 +9,10 @@
 namespace INI {
     class Loader {
         public:
-            Loader(std::string filename);
+            Loader() { }
+            Loader(std::string filename) {
+                readFile(filename);
+            }
 
             void printAll();
             void print(std::string option = nullptr);
@@ -32,6 +35,11 @@ namespace INI {
 
             bool isNull() const {
                 return options.empty();
+            }
+
+            void readFile(std::string filename) {
+                std::ifstream iniFile(filename);
+                readINI(iniFile);
             }
 
         protected:

@@ -3,11 +3,6 @@
 #include <iostream>
 
 namespace INI {
-    Loader::Loader(std::string filename) {
-        std::ifstream iniFile(filename);
-        readINI(iniFile);
-    }
-    
     void Loader::printFileError() {
         std::cout << "Error: Unable to open the file" << std::endl;
     }
