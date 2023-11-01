@@ -1,26 +1,31 @@
 #include <CpuRunner.h>
 
+#include <iostream>
+
 namespace CpuRunner {
 
     bool isDebug() {
-        if (!manager) {
-            return false;
-        }
+        if (debug == -1) {
+            if (!manager) {
+                return false;
+            }
         
-        std::variant<std::string, int> value = manager->getOptionValue(CpuRunnerOption::Option::DEBUG_DEBUG);
-        std::string str = manager->convertToString(value);
-        std::transform(str.begin(), str.end(), str.begin(), ::tolower);
-        std::istringstream is(str);
-        bool b;
-        is >> std::boolalpha >> b;
-        return b;
+            std::variant<std::string, int> value = manager->getOptionValue(CpuRunnerOption::Option::DEBUG_DEBUG);
+            std::string str = manager->convertToString(value);
+            return (str == "ON");
+        } else {
+            return debug;
+        }
     }
 
     void initialize() {
+        debug = -1;
         manager = OptionsManager::GetInstance();
         if (isDebug()) {
+            debug = 1;
             qDebug() << "CpuRunner is on the debug";
         } else {
+            debug = 0;
             qDebug() << "CpuRunner is not on the debug";
         }
     }
