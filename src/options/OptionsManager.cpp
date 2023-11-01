@@ -16,6 +16,7 @@ namespace CpuRunner {
     };
 
     OptionsManager *OptionsManager::manager_ = nullptr;
+    const INI::Loader OptionsManager::nullLoader = INI::Loader();
 
     OptionsManager *OptionsManager::GetInstance(const INI::Loader &loader) {
         // if loader is null, check if the single instance has already created.
