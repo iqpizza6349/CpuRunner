@@ -22,6 +22,7 @@ endif()
 
 set(SOURCES
     "src/main.cpp"
+    "src/CpuRunner.cpp"
     "src/widget/RunnerWidget.cpp"
     "src/widget/UsageLabel.cpp"
     "src/options/OptionsManager.cpp"
