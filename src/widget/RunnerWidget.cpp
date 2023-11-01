@@ -12,8 +12,10 @@ namespace CpuRunner {
     RunnerWidget::RunnerWidget(): QWidget() {
         this->setAutoFillBackground(true);
         label = new QLabel(this);
-        usageLabel = new UsageLabel(this);
-        
+        if (isDebug()) {
+            usageLabel = new UsageLabel(this);
+        }
+
         QPixmap pixmap(NORMAL);
         updateGUI(pixmap);
         
@@ -24,13 +26,18 @@ namespace CpuRunner {
     
     void RunnerWidget::update() {
         int usage = Cpusage::usage();
-        usageLabel->updateUsage(usage);
+
+        if (isDebug()) {
+            usageLabel->updateUsage(usage);
+        }
+        
         std::string filename = (usage > 33) ? NORMAL : COOL;
         if (!checkIsSameAsPrevious(filename)) {
             previous = filename;
             QString filepath = QString::fromStdString(filename);
             QPixmap pixmap(filepath);
             updateGUI(pixmap);
+            this->setFixedSize(pixmap.size());
         }
     }
 

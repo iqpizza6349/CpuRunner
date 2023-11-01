@@ -8,6 +8,7 @@
 
 namespace CpuRunner {
     static OptionsManager *manager;
+    static int debug;
 
     bool isDebug();
 
