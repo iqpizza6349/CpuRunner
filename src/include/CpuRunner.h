@@ -10,9 +10,17 @@
 #include <QDebug>
 
 namespace CpuRunner {
-    //TODO: which is return the value from 'option.ini'
+    const INI::Loader OptionsManager::nullLoader;
+
     bool isDebug() {
-        return 1;
+        OptionsManager *manager = OptionsManager::GetInstance();
+        std::variant<std::string, int> value = manager->getOptionValue(CpuRunnerOption::Option::DEBUG_DEBUG);
+        std::string str = manager->convertToString(value);
+        std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+        std::istringstream is(str);
+        bool b;
+        is >> std::boolalpha >> b;
+        return b;
     }
 }
 
