@@ -1,6 +1,7 @@
 #pragma once
 #include <CpuRunner/Widget.h>
 #include <CpuRunner/UsageLabel.h>
+#include <CpuRunner.h>
 
 #include <QPixmap>
 #include <QPoint>

@@ -6,6 +6,8 @@
 
 #include <QString>
 
+#include <CpuRunner.h>
+
 namespace CpuRunner {
     class UsageLabel : public QObject {
 
