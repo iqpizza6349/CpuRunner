@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5.0)
+cmake_minimum_required(VERSION 3.10.0)
 project(CpuRunner VERSION 0.1.0 LANGUAGES C CXX)
 
 include(CTest)
@@ -10,7 +10,11 @@ set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+if (MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zc:__cplusplus /permissive- -D_WIN32_WINNT=0x0601")
+else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+endif()
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -31,39 +35,33 @@ set(SOURCES
 
 if (WIN32)
     set(PLATFORM "windows")
-    set(BASE_PLATFORM "windows")
-elseif(APPLE)
-    set(PLATFORM "macos")
-    set(BASE_PLATFORM "linux")
-elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-    set(PLATFORM "macos")
-    set(BASE_PLATFORM "linux")
 else()
     # default for linux
     set(PLATFORM "linux")
-    set(BASE_PLATFORM "linux")
 endif()
 
-set(SOURCES ${SOURCES} ${CMAKE_SOURCE_DIR}/thirdparty/cpusage/CpuUsageLib/${BASE_PLATFORM}/CpuUsage.cpp)
-
-# Check the Qt5 is downloaded on client local
-find_package(Qt5 QUIET)
-if (NOT Qt5_FOUND)
-    message("Cannot found Qt5 library. Use default path.. OS >> ${PLATFORM}")
-    set(CMAKE_PREFIX_PATH ${CMAKE_SOURCE_DIR}/thirdparty/qt/${PLATFORM})
-    find_package(Qt5 REQUIRED COMPONENTS Widgets REQUIRED)
+if (MSVC)
+    if (CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64")
+        set(PROCESSOR "msvc2019_arm64")
+    else()
+        set(PROCESSOR "msvc2019_64")
+    endif()
+elseif(MINGW)
+    set(PROCESSOR "mingw_64")
+else()
+    set(PROCESSOR "gcc_64")
 endif()
 
-# Check the Boost is downloaded on client local
-find_package(Boost QUIET)
-if (NOT Boost_FOUND)
-    message("Cannot found Boost library. Use default path")
-    set(BOOST_ROOT ${CMAKE_SOURCE_DIR}/thirdparty/boost/${BASE_PLATFORM})
-    set(CMAKE_PREFIX_PATH "${BOOST_ROOT}")
-    set(Boost_INCLUDE_DIR ${BOOST_ROOT}/include)
-    set(Boost_LIBRARY_DIR ${BOOST_ROOT}/lib)
-    find_package(Boost REQUIRED COMPONENTS system filesystem)
-endif()
+set(SOURCES ${SOURCES} ${CMAKE_SOURCE_DIR}/thirdparty/cpusage/CpuUsageLib/${PLATFORM}/CpuUsage.cpp)
+
+set(CMAKE_PREFIX_PATH ${CMAKE_SOURCE_DIR}/thirdparty/qt/${PROCESSOR})
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets REQUIRED)
+
+set(BOOST_ROOT ${CMAKE_SOURCE_DIR}/thirdparty/boost/${PLATFORM})
+set(Boost_DIR "${BOOST_ROOT}")
+set(Boost_INCLUDE_DIR ${BOOST_ROOT}/include)
+set(Boost_LIBRARY_DIR ${BOOST_ROOT}/lib)
+find_package(Boost REQUIRED COMPONENTS system filesystem)
 
 include_directories("src/include")
 include_directories(${Boost_INCLUDE_DIRS})
@@ -73,6 +71,6 @@ include_directories(${CMAKE_SOURCE_DIR}/thirdparty/ini/include)
 
 add_executable(CpuRunner ${SOURCES})
 
-target_link_libraries(CpuRunner Qt5::Widgets ${Boost_LIBRARIES})
+target_link_libraries(CpuRunner PRIVATE Qt6::Core Qt6::Widgets ${Boost_LIBRARIES})
 
 include(CPack)
