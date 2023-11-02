@@ -25,7 +25,7 @@ namespace CpuRunner {
     }
     
     void RunnerWidget::update() {
-        int usage = Cpusage::usage();
+        int usage = Cpusage::usage(&prevIdleTime, &prevTotalTime);
 
         if (isDebug()) {
             usageLabel->updateUsage(usage);
@@ -33,6 +33,7 @@ namespace CpuRunner {
         
         std::string filename = (usage > 33) ? NORMAL : COOL;
         if (!checkIsSameAsPrevious(filename)) {
+            qDebug() << "Change file cause by cpu usage is " << usage << "%";
             previous = filename;
             QString filepath = QString::fromStdString(filename);
             QPixmap pixmap(filepath);

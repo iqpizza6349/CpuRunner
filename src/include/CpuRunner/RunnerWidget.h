@@ -39,6 +39,9 @@ namespace CpuRunner {
         std::string previous;
         UsageLabel *usageLabel;
 
+        int prevIdleTime;
+        int prevTotalTime;
+
         void updateGUI(QPixmap pixmap);
         bool checkIsSameAsPrevious(std::string newString) {
             return previous == newString;
