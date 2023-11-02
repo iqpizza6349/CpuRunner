@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning(disable: 4996)
 #include <CpuRunner/Widget.h>
 #include <CpuRunner/UsageLabel.h>
 #include <CpuRunner.h>
