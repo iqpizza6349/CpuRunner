@@ -68,9 +68,11 @@ thirdparty/boost/unix/**
 thirdparty/boost/windows/**
 !thirdparty/boost/windows/.gitkeep
 
-thirdparty/qt/linux/**
-!thirdparty/qt/linux/.gitkeep
-thirdparty/qt/windows/**
-!thirdparty/qt/windows/.gitkeep
-thirdparty/qt/macos/**
-!thirdparty/qt/macos/.gitkeep
+thirdparty/qt/gcc_64/**
+!thirdparty/qt/gcc_64/.gitkeep
+thirdparty/qt/mingw_64/**
+!thirdparty/qt/mingw_64/.gitkeep
+thirdparty/qt/msvc2019_64/**
+!thirdparty/qt/msvc2019_64/.gitkeep
+thirdparty/qt/msvc2019_arm64/**
+!thirdparty/qt/msvc2019_arm64/.gitkeep
