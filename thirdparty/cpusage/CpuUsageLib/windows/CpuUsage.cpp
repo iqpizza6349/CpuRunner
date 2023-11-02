@@ -4,7 +4,7 @@
 #include <boost/process.hpp>
 
 namespace Cpusage {
-    int usage() {
+    int usage(int *previousIdleTime, int *previousTotalTime) {
         boost::process::ipstream pipe_stream;
         boost::process::child process("wmic cpu get loadpercentage", boost::process::std_out > pipe_stream);
 
