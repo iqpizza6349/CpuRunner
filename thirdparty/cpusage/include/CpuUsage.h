@@ -3,7 +3,7 @@
 #define DEFAULT_CPU_USAGE -1.0
 
 namespace Cpusage {
-    int usage();
+    int usage(int *previousIdleTime = nullptr, int *previousTotalTime = nullptr);
 }
 
 #endif
