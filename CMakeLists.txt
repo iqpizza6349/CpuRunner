@@ -1,8 +1,5 @@
-cmake_minimum_required(VERSION 3.10.0)
+cmake_minimum_required(VERSION 3.21.0)
 project(CpuRunner VERSION 0.1.0 LANGUAGES C CXX)
-
-include(CTest)
-enable_testing()
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
@@ -52,9 +49,15 @@ else()
     set(PROCESSOR "gcc_64")
 endif()
 
+message("Compile with ${PROCESSOR}")
+
 set(SOURCES ${SOURCES} ${CMAKE_SOURCE_DIR}/thirdparty/cpusage/CpuUsageLib/${PLATFORM}/CpuUsage.cpp)
 
-set(CMAKE_PREFIX_PATH ${CMAKE_SOURCE_DIR}/thirdparty/qt/${PROCESSOR})
+set(Qt6_ROOT ${CMAKE_SOURCE_DIR}/thirdparty/qt/${PROCESSOR})
+set(CMAKE_PREFIX_PATH "${Qt_ROOT}" "${Qt_ROOT}/lib/cmake/Qt6")
+
+set(Qt6_INCLUDE_DIR ${Qt6_ROOT}/include)
+set(Qt6_LIBRARY_DIR ${Qt6_ROOT}/lib)
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets REQUIRED)
 
 set(BOOST_ROOT ${CMAKE_SOURCE_DIR}/thirdparty/boost/${PLATFORM})
@@ -64,8 +67,8 @@ set(Boost_LIBRARY_DIR ${BOOST_ROOT}/lib)
 find_package(Boost REQUIRED COMPONENTS system filesystem)
 
 include_directories("src/include")
-include_directories(${Boost_INCLUDE_DIRS})
-include_directories(${Qt5Widgets_INCLUDE_DIRS})
+include_directories(${Boost_INCLUDE_DIR})
+include_directories(${Qt6Widgets_INCLUDE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/thirdparty/cpusage/include)
 include_directories(${CMAKE_SOURCE_DIR}/thirdparty/ini/include)
 
