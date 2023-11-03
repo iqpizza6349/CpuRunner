@@ -1,18 +1,26 @@
 #include <CpuUsage.h>
 
-#include <string>
-#include <boost/process.hpp>
+#include <Windows.h>
 
 namespace Cpusage {
     int usage(int *previousIdleTime, int *previousTotalTime) {
-        boost::process::ipstream pipe_stream;
-        boost::process::child process("wmic cpu get loadpercentage", boost::process::std_out > pipe_stream);
+        FILETIME idleTime, kernelTime, userTime;
 
-        std::string line;
-        std::getline(pipe_stream, line);
+        if (GetSystemTimes(&idleTime, &kernelTime, &userTime)) {
+            int idle = idleTime.dwHighDateTime + idleTime.dwLowDateTime;
+            int kernel = kernelTime.dwHighDateTime + kernelTime.dwLowDateTime;
+            int user = userTime.dwHighDateTime + userTime.dwLowDateTime;
 
-        std::getline(pipe_stream, line);
+            int totalTime = kernel + user;
+            int idleDelta = idle - *previousIdleTime;
+            int totalDelta = totalTime - *previousTotalTime;
 
-        return std::stoi(line);
+            int percent = static_cast<int>((1.0 - 1.0 * idleDelta / totalDelta) * 100.0);
+            *previousIdleTime = idle;
+            *previousTotalTime = totalTime;
+            return percent;
+        } else {
+            return DEFAULT_CPU_USAGE;
+        }
     }
 }
