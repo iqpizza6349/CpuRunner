@@ -12,7 +12,6 @@
 using namespace CpuRunner;
 
 OptionsManager *options;
-bool isXServerEnvironment();
 void initializeOptions();
 int initializeApplication(int argc, char** argv);
 
@@ -21,10 +20,6 @@ int main(int argc, char** argv) {
     initializeOptions();
     initialize();
     return initializeApplication(argc, argv);
-}
-
-bool isXServerEnvironment() {
-    return std::getenv("DISPLAY") != nullptr;
 }
 
 void initializeOptions() {
@@ -40,12 +35,8 @@ int initializeApplication(int argc, char** argv) {
     int height = options->convertToInt(options->getOptionValue(CpuRunnerOption::Option::WIDGET_HEIGHT, true));
     window.resize(width, height);
 
-    Qt::WindowType type = Qt::FramelessWindowHint;
-    if (isXServerEnvironment()) {
-        type = Qt::X11BypassWindowManagerHint;
-    }
-
-    window.setWindowFlags(type);
+    Qt::WindowFlags flags = window.windowFlags();
+    window.setWindowFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
     window.setWindowTitle("Character Display");
     window.setAttribute(Qt::WA_TranslucentBackground);
 
