@@ -54,7 +54,7 @@ message("Compile with ${PROCESSOR}")
 set(SOURCES ${SOURCES} ${CMAKE_SOURCE_DIR}/thirdparty/cpusage/CpuUsageLib/${PLATFORM}/CpuUsage.cpp)
 
 set(Qt6_ROOT ${CMAKE_SOURCE_DIR}/thirdparty/qt/${PROCESSOR})
-set(CMAKE_PREFIX_PATH "${Qt_ROOT}" "${Qt_ROOT}/lib/cmake/Qt6")
+set(CMAKE_PREFIX_PATH "${Qt6_ROOT}" "${Qt6_ROOT}/lib/cmake/Qt6")
 
 set(Qt6_INCLUDE_DIR ${Qt6_ROOT}/include)
 set(Qt6_LIBRARY_DIR ${Qt6_ROOT}/lib)
