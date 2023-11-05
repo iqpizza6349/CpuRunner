@@ -36,7 +36,7 @@ int initializeApplication(int argc, char** argv) {
     window.resize(width, height);
 
     Qt::WindowFlags flags = window.windowFlags();
-    window.setWindowFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+    window.setWindowFlags(flags | Qt::Tool | Qt::BypassWindowManagerHint | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
     window.setWindowTitle("Character Display");
     window.setAttribute(Qt::WA_TranslucentBackground);
 
