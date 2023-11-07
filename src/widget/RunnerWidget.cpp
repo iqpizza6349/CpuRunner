@@ -16,7 +16,8 @@ namespace CpuRunner {
             usageLabel = new UsageLabel(this);
         }
 
-        QPixmap pixmap(NORMAL);
+        std::string file = getImage(CpuRunner::COOL);
+        QPixmap pixmap(QString::fromStdString(file));
         updateGUI(pixmap);
         
         guiTimer = new QTimer(this);
@@ -26,14 +27,13 @@ namespace CpuRunner {
     
     void RunnerWidget::update() {
         int usage = Cpusage::usage(&prevIdleTime, &prevTotalTime);
-
         if (isDebug()) {
+            qDebug() << "Current usage is " << usage << "%";
             usageLabel->updateUsage(usage);
         }
         
-        std::string filename = (usage > 33) ? NORMAL : COOL;
+        std::string filename = changeImage(usage);
         if (!checkIsSameAsPrevious(filename)) {
-            qDebug() << "Change file cause by cpu usage is " << usage << "%";
             previous = filename;
             QString filepath = QString::fromStdString(filename);
             QPixmap pixmap(filepath);
