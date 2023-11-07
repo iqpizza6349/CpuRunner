@@ -29,4 +29,36 @@ namespace CpuRunner {
             qDebug() << "CpuRunner is not on the debug";
         }
     }
+
+    std::string getImageType(ImageType imageType) {
+        switch (imageType) {
+            case COOL:
+                return "cool";
+                break;
+            case NORMAL:
+                return "normal";
+                break;
+            case HOT:
+                return "hot";
+                break;
+            case EXTREME:
+                return "extreme";
+                break;
+            case MELT:
+                return "melt";
+                break;
+            default:
+                return "null";
+                break;
+        }
+    }
+
+    std::string getImage(ImageType imageType) {
+        auto images = manager->getOptionValue(CpuRunnerOption::Option::WIDGET_IMAGES);
+        std::string directory = manager->convertToString(images);
+        std::string type = getImageType(imageType);
+        return directory.append("/")
+                        .append(type)
+                        .append(".png");
+    }
 }
