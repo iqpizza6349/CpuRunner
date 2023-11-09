@@ -35,8 +35,18 @@ int initializeApplication(int argc, char** argv) {
     int height = options->convertToInt(options->getOptionValue(CpuRunnerOption::Option::WIDGET_HEIGHT, true));
     window.resize(width, height);
 
+    std::string keepOption = options->convertToString(options->getOptionValue(CpuRunnerOption::Option::WIDGET_TOP));
+    bool keepTop = (keepOption == "ON") ? true : false;
+
     Qt::WindowFlags flags = window.windowFlags();
-    window.setWindowFlags(flags | Qt::Tool | Qt::BypassWindowManagerHint | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+    Qt::WindowFlags applicationFlags;
+    if (keepTop) {
+        applicationFlags = Qt::Tool | Qt::BypassWindowManagerHint | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint;
+    } else {
+        applicationFlags = Qt::Tool | Qt::BypassWindowManagerHint | Qt::FramelessWindowHint;
+    }
+
+    window.setWindowFlags(flags | applicationFlags);
     window.setWindowTitle("Character Display");
     window.setAttribute(Qt::WA_TranslucentBackground);
 
